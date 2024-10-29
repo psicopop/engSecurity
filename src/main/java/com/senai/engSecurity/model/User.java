@@ -2,6 +2,7 @@ package com.senai.engSecurity.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,6 +58,9 @@ public class User {
     }
 
     public List<String> getRoles() {
+        if (Objects.isNull(roles)) {
+            roles = new ArrayList<>();
+        }
         return roles;
     }
 

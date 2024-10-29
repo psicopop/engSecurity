@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Set<GrantedAuthority> authorities = user.getRoles()
                 .stream()
-                .map(SimpleGrantedAuthority::new)
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
 
         return new org.springframework.security.core.userdetails.User(
