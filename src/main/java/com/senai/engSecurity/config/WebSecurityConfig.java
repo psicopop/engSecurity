@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,20 +37,25 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(URL + "/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "user").permitAll()
-                        .requestMatchers(HttpMethod.POST, "user/login").permitAll()
-                        .requestMatchers(URL + "api/user").hasAnyRole("USER", "ADM")
-                        .requestMatchers(URL + "/adm").hasAnyRole("ADM")
-                        .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults());
+    http.cors(Customizer.withDefaults())
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers("/user", "/user/login").permitAll() // Permitir acesso às rotas de login e registro
+                    .requestMatchers("/api/user").hasAnyRole("USER", "ADM")
+                    .requestMatchers("/api/adm").hasAnyRole("ADM")
+                    .anyRequest().authenticated())
+            .httpBasic(Customizer.withDefaults());
 
-        return http.build();
-    }
+    return http.build();
+}
+
+@Bean
+public BCryptPasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+}
+
+
 
 }
