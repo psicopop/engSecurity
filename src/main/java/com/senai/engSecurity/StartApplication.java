@@ -32,7 +32,7 @@ public class StartApplication implements CommandLineRunner {
 
         if (optionalUser.isEmpty()) {
             User user = new User();
-            user.setUsername(name);
+            
             user.setUsername(username);
             user.setPassword(new BCryptPasswordEncoder().encode(password));
             user.getRoles().add(role);

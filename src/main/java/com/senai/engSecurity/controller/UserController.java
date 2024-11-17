@@ -1,5 +1,6 @@
 package com.senai.engSecurity.controller;
 
+import com.senai.engSecurity.config.JwtTokenUtil;
 import com.senai.engSecurity.model.User;
 import com.senai.engSecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping
     public User save(@RequestBody User user) {
@@ -21,17 +25,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return userService.findByUsernameAndPassword(user);
-    }
-
-    @PostMapping("/testAuth")
-public ResponseEntity<?> testAuthentication(@RequestBody User user) {
+public ResponseEntity<?> login(@RequestBody User user) {
     User foundUser = userService.findByUsernameAndPassword(user);
     if (foundUser != null) {
-        return ResponseEntity.ok("Usuário autenticado com sucesso!");
-    } else {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado ou credenciais inválidas.");
+        String token = jwtTokenUtil.generateToken(foundUser.getUsername());
+        return ResponseEntity.ok(token);
     }
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas.");
 }
+
+    
 }
