@@ -38,8 +38,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticat
                 .requestMatchers("/user", "/user/login").permitAll()
                 .requestMatchers("/api/user").hasAnyRole("USER", "ADM")
                 .requestMatchers("/api/adm").hasAnyRole("ADM")
-                .anyRequest().authenticated())
-        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated());
+        //.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
 }

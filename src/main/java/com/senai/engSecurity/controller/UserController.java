@@ -29,6 +29,7 @@ public ResponseEntity<?> login(@RequestBody User user) {
     User foundUser = userService.findByUsernameAndPassword(user);
     if (foundUser != null) {
         String token = jwtTokenUtil.generateToken(foundUser.getUsername());
+        System.out.println(token);
         return ResponseEntity.ok(token);
     }
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas.");
