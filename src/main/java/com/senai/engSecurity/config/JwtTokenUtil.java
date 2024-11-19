@@ -15,7 +15,7 @@ import java.util.Date;
 @Component
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
-    private static final String SECRET_KEY = "senha"; // Substitua por algo seguro
+    private static final String SECRET_KEY = "yourverysecureandlongkeyofatleast32characters123456"; // Substitua por algo seguro
     private static final long EXPIRATION_TIME = 86400000; // 1 dia em milissegundos
 
     public String generateToken(String username) {

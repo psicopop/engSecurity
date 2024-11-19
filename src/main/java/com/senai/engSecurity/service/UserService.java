@@ -27,10 +27,25 @@ public class UserService {
     }
 
     public User findByUsernameAndPassword(User user) {
+        user.setUsername("admin");
+        System.out.println("Buscando usuário: " + user.getUsername());
         User foundUser = userRepository.findByUsername(user.getUsername()).orElse(null);
-        if (foundUser != null && passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
+        
+        if (foundUser == null) {
+            System.out.println("Usuário não encontrado no banco.");
+            return null;
+        }
+        
+        System.out.println("Usuário encontrado: " + foundUser.getUsername());
+        System.out.println("Comparando senhas...");
+        if (passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
+            System.out.println("Senhas coincidem.");
             return foundUser;
         }
-        return null; // Retorna null se as credenciais estiverem incorretas
+        System.out.println("Senha incorreta.");
+        return null;
     }
+    
+
+    
 }

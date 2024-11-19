@@ -14,17 +14,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "ENG_ROLE", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "role_id")
-    private List<String> roles;
+    @CollectionTable(name = "ENG_ROLE", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private List<String> roles = new ArrayList<>();
 
-    public User() {
-    }
+    public User() {}
 
     public User(Long id, String username, String password, List<String> roles) {
         this.id = id;

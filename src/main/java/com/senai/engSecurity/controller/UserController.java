@@ -35,5 +35,7 @@ public ResponseEntity<?> login(@RequestBody User user) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas.");
 }
 
+
+
     
 }

@@ -37,6 +37,7 @@ public class StartApplication implements CommandLineRunner {
             user.setPassword(new BCryptPasswordEncoder().encode(password));
             user.getRoles().add(role);
             repository.save(user);
+            System.out.println("Usuário criado: " + username);
         }
     }
 }
